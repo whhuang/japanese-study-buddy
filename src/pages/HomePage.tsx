@@ -1,6 +1,4 @@
-import { NavLink } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { NavButton } from '@/components/common/NavButton';
 
 function HomePage() {
     return (
@@ -9,32 +7,12 @@ function HomePage() {
                 Japanese Study Buddy
             </div>
             <div className="grid grid-cols-3 gap-4 items-center">
-                <Button variant="secondary">
-                    <NavLink
-                        to="/settings"
-                        className={({ isActive }) =>
-                            cn(
-                            "transition-colors hover:text-primary",
-                            !isActive && "text-muted-foreground"
-                            )
-                        }
-                    >
-                        Settings
-                    </NavLink>
-                </Button>
-                <Button variant="secondary" className="row-start-2">
-                    <NavLink
-                        to="/vocabulary"
-                        className={({ isActive }) =>
-                            cn(
-                            "transition-colors hover:text-primary",
-                            !isActive && "text-muted-foreground"
-                            )
-                        }
-                    >
-                        Vocabulary
-                    </NavLink>
-                </Button>
+                <NavButton to="/settings" variant="secondary">
+                    Settings
+                </NavButton>
+                <NavButton to="/vocabulary" variant="secondary" buttonClassName="row-start-2" >
+                    Vocabulary
+                </NavButton>
                 <div className="row-start-2">
                     Last studied: 
                 </div>
