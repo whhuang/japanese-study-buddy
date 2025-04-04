@@ -34,3 +34,6 @@ data viewing:
 - store data in a DB so entries can be easily updated, new headers can be added, etc.
 
 data format:
+
+
+TODO: add romaji to db, fix japanese columns

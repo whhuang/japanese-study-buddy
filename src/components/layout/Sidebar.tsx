@@ -1,62 +1,58 @@
-// Example: Inside your Sidebar.tsx or Header.tsx component
-import { NavLink } from 'react-router-dom';
-import { Button } from '@/components/ui/button'; // Assuming you added Button
-import { cn } from '@/lib/utils'; // shadcn utility for class names
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 
-function Sidebar() {
-  // ...
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar"
 
+// Menu items.
+const items = [
+  {
+    title: "Home",
+    url: "/",
+    icon: Home,
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Settings,
+  },
+  {
+    title: "Vocabulary",
+    url: "/vocabulary",
+    icon: Calendar,
+  },
+]
+
+export function AppSidebar() {
   return (
-    <nav className="flex flex-col p-4 space-y-2">
-      {/* Example NavLink wrapped by shadcn Button */}
-      <Button asChild variant="ghost" className="w-full justify-start">
-        {/* NavLink receives function to check active state */}
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            cn(
-              "transition-colors hover:text-primary", // Base classes
-              !isActive && "text-muted-foreground"   // Style if not active
-              // Active styles often handled by parent/variant or explicitly
-            )
-          }
-          end // Use 'end' for the home/index route to avoid partial matching
-        >
-          Home
-        </NavLink>
-      </Button>
-
-      <Button asChild variant="ghost" className="w-full justify-start">
-        <NavLink
-          to="/vocabulary"
-           className={({ isActive }) =>
-            cn(
-              "transition-colors hover:text-primary",
-              !isActive && "text-muted-foreground"
-            )
-          }
-        >
-          Vocabulary List
-        </NavLink>
-      </Button>
-
-      <Button asChild variant="ghost" className="w-full justify-start">
-        <NavLink
-          to="/settings" // Example settings route
-           className={({ isActive }) =>
-            cn(
-              "transition-colors hover:text-primary",
-              !isActive && "text-muted-foreground"
-            )
-          }
-        >
-          Settings
-        </NavLink>
-      </Button>
-
-      {/* Add more links */}
-    </nav>
-  );
+    <Sidebar side="right">
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  )
 }
 
 export default Sidebar;

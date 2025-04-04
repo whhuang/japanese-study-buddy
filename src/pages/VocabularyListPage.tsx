@@ -81,7 +81,7 @@ function VocabularyListPage() {
 
   return (
     <div className="container">
-      <h1>Japanese Study Buddy - Vocabulary</h1>
+      <h1>Study Vocabulary</h1>
 
       {/* --- Global Filter Input --- */}
       <div style={{ marginBottom: '10px' }}>

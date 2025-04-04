@@ -1,16 +1,20 @@
 import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "./Sidebar"
 
-function Layout() {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen">
-      <Sidebar /> {/* Your navigation */}
-      <main className="flex-1 overflow-y-auto p-4">
-         {/* Page content will be rendered here */}
-        <Outlet />
+    <SidebarProvider defaultOpen={false}>
+      <AppSidebar />
+      <main className="w-full">
+        <div className="flex">
+          <div className="grow">
+            <Outlet />
+          </div>
+          <SidebarTrigger />
+        </div>
+        {children}
       </main>
-    </div>
-  );
+    </SidebarProvider>
+  )
 }
-
-export default Layout;
