@@ -12,6 +12,8 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 
+import { NavButton } from '@/components/common/NavButton';
+
 const columnHelper = createColumnHelper<VocabularyEntry>();
 
 const columns = [
@@ -48,7 +50,6 @@ function VocabularyListPage() {
   const [rowSelection, setRowSelection] = useState({});
   // --- ---
 
-  // Fetching logic remains the same
   useEffect(() => {
     setLoading(true);
     invoke<VocabularyEntry[]>('get_vocabulary')
@@ -82,6 +83,10 @@ function VocabularyListPage() {
   return (
     <div className="container">
       <h1>Study Vocabulary</h1>
+
+      <NavButton to="/flashcard" variant="secondary" buttonClassName="my-4">
+        Start flashcard study session
+      </NavButton>
 
       {/* --- Global Filter Input --- */}
       <div style={{ marginBottom: '10px' }}>

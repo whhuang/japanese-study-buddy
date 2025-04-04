@@ -8,6 +8,7 @@ import Layout from './components/layout/Layout'; // Or wherever your main layout
 import HomePage from './pages/HomePage';
 import VocabularyListPage from './pages/VocabularyListPage';
 import SettingsPage from './pages/SettingsPage';
+import FlashcardPage from './pages/FlashcardPage';
 // ... import other pages that use the main layout
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Route element={<Layout />}> {/* Use element prop for layout-only route */}
         <Route path="vocabulary" element={<VocabularyListPage />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="flashcard" element={<FlashcardPage />} />
         {/* Add other pages that should use the main Layout here */}
         {/* Example: <Route path="profile" element={<ProfilePage />} /> */}
       </Route>
