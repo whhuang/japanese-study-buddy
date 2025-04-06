@@ -19,6 +19,13 @@ function HomePage() {
                 <div className="row-start-2">
                     % goal hit
                 </div>
+                {/* --- Conditional Link for Theme Preview (DEV ONLY) --- */}
+                {import.meta.env.DEV && (
+                    <NavButton to="/theme-preview" variant="secondary" buttonClassName="row-start-3">
+                        Theme Preview (Dev Only)
+                    </NavButton>
+                )}
+                {/* --- --- */}
             </div>
         </div>
     );

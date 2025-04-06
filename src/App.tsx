@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage';
 import VocabularyListPage from './pages/VocabularyListPage';
 import SettingsPage from './pages/SettingsPage';
 import FlashcardPage from './pages/FlashcardPage';
-// ... import other pages that use the main layout
+import ThemePreviewPage from './pages/ThemePreviewPage';
 
 function App() {
   return (
@@ -25,9 +25,13 @@ function App() {
         <Route path="flashcard" element={<FlashcardPage />} />
         {/* Add other pages that should use the main Layout here */}
         {/* Example: <Route path="profile" element={<ProfilePage />} /> */}
+
+        {import.meta.env.DEV && (
+          <Route path="/theme-preview" element={<ThemePreviewPage />} />
+        )}
       </Route>
 
-      {/* Optional: Add a catch-all 404 route */}
+      {/* Optional: Catch-all 404 */}
       {/* <Route path="*" element={<NotFoundPage />} /> */}
     </Routes>
   );
