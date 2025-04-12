@@ -19,9 +19,12 @@ function HomePage() {
                 <div className="row-start-2">
                     % goal hit
                 </div>
+                <NavButton to="/edit-table" variant="secondary" buttonClassName="row-start-3" >
+                    Edit Table
+                </NavButton>
                 {/* --- Conditional Link for Theme Preview (DEV ONLY) --- */}
                 {import.meta.env.DEV && (
-                    <NavButton to="/theme-preview" variant="secondary" buttonClassName="row-start-3">
+                    <NavButton to="/theme-preview" variant="secondary" buttonClassName="row-start-4">
                         Theme Preview (Dev Only)
                     </NavButton>
                 )}

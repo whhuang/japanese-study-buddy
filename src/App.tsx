@@ -10,6 +10,7 @@ import VocabularyListPage from './pages/VocabularyListPage';
 import SettingsPage from './pages/SettingsPage';
 import FlashcardPage from './pages/FlashcardPage';
 import ThemePreviewPage from './pages/ThemePreviewPage';
+import EditTablePage from './pages/EditTablePage';
 
 function App() {
   return (
@@ -23,8 +24,7 @@ function App() {
         <Route path="vocabulary" element={<VocabularyListPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="flashcard" element={<FlashcardPage />} />
-        {/* Add other pages that should use the main Layout here */}
-        {/* Example: <Route path="profile" element={<ProfilePage />} /> */}
+        <Route path="edit-table" element={<EditTablePage />} />
 
         {import.meta.env.DEV && (
           <Route path="/theme-preview" element={<ThemePreviewPage />} />
