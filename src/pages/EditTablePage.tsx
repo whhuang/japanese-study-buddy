@@ -54,7 +54,7 @@ function EditTablePage() {
               Paste tab-separated data below. Assumes header row and columns matching the table structure (excluding ID). Each line will be added as a new entry.
           </p>
           <Textarea
-              placeholder="English	Japanese	Furigana	Chapter	Category	Seen	Missed%	Flag	PublicNotes	PersonalNotes	Book	Section" // Update placeholder if needed
+              placeholder="English	Furigana  Japanese	Chapter	Category	Seen	Missed%	Flag	PublicNotes	PersonalNotes	Book	Section" // Update placeholder if needed
               value={tsvInput}
               onChange={(e) => setTsvInput(e.target.value)}
               rows={10} // Adjust rows as needed

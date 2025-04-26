@@ -1,5 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { VocabularyEntry } from '@/types/index.ts';
+import { Checkbox } from "@/components/ui/checkbox";
 
 // --- Column Type for Hierarchy ---
 // (Keep this definition here or move to types/index.ts if used elsewhere)
@@ -17,6 +18,42 @@ export interface ColumnItem {
 const columnHelper = createColumnHelper<VocabularyEntry>();
 
 export const columns = [ // <-- Export the array
+  // --- Add Selection Column ---
+  columnHelper.display({
+    id: 'select',
+    // Header Checkbox
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() || // Checks if all rows on current page/view are selected
+          (table.getIsSomePageRowsSelected() && "indeterminate") // Checks if some (but not all) are selected
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)} // Toggles selection for all rows on page/view
+        aria-label="Select all rows"
+        className="" // Minor alignment adjustment
+      />
+    ),
+    // Cell Checkbox
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()} // Checks if this specific row is selected
+        onCheckedChange={(value) => row.toggleSelected(!!value)} // Toggles selection for this row
+        aria-label="Select row"
+        className=""
+        // Prevent row click event when clicking checkbox
+        onClick={(e) => e.stopPropagation()}
+      />
+    ),
+    // Disable resizing, sorting, filtering etc. for this column
+    enableResizing: false,
+    enableSorting: false,
+    enableHiding: false,
+    size: 40, // Fixed small size
+    minSize: 40,
+    maxSize: 40,
+  }),
+  // --- End Selection Column ---
+
   columnHelper.accessor('english', {
     header: 'English',
     cell: info => info.getValue() ?? 'N/A',
@@ -86,8 +123,8 @@ export const columns = [ // <-- Export the array
 // --- Column Finder Hierarchy Definition ---
 export const columnHierarchy: ColumnItem[] = [ // <-- Export the array
   { id: 'col-english', label: 'English', isGroup: false, columnId: 'english' },
-  { id: 'col-japanese', label: 'Japanese', isGroup: false, columnId: 'japanese' },
   { id: 'col-furigana', label: 'Furigana', isGroup: false, columnId: 'furigana' },
+  { id: 'col-japanese', label: 'Japanese', isGroup: false, columnId: 'japanese' },
   { id: 'col-word_category', label: 'Category', isGroup: false, columnId: 'word_category' },
   { id: 'col-book', label: 'Book', isGroup: true, columnId: 'book', children: [
     { id: 'col-chapter', label: 'Chapter', isGroup: false, columnId: 'chapter', isMultiSelect: true },

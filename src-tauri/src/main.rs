@@ -75,7 +75,7 @@ fn add_vocabulary_entries_tsv(tsv_data: String, state: tauri::State<DbState>) ->
     {
         // Prepare INSERT statement (adjust column names/order to match your table exactly, except vocab_id)
         // IMPORTANT: The number of '?' must match the number of columns listed.
-        let sql = "INSERT INTO vocabulary (english, japanese, furigana, chapter, word_category, times_seen, recently_missed_percent, flag, public_notes, personal_notes, book, section) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)";
+        let sql = "INSERT INTO vocabulary (english, furigana, japanese, chapter, word_category, times_seen, recently_missed_percent, flag, public_notes, personal_notes, book, section) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)";
         let mut stmt = tx.prepare_cached(sql).map_err(|e| format!("Failed to prepare statement: {}", e))?;
 
         // Process lines, skipping header
@@ -95,8 +95,8 @@ fn add_vocabulary_entries_tsv(tsv_data: String, state: tauri::State<DbState>) ->
             // This requires careful handling based on your actual schema and TSV format
             let result = stmt.execute(params![
                 fields.get(0).map(|s| if s.is_empty() { None } else { Some(*s) }), // english (Option<String>)
-                fields.get(1).map(|s| if s.is_empty() { None } else { Some(*s) }), // japanese
-                fields.get(2).map(|s| if s.is_empty() { None } else { Some(*s) }), // furigana
+                fields.get(1).map(|s| if s.is_empty() { None } else { Some(*s) }), // furigana
+                fields.get(2).map(|s| if s.is_empty() { None } else { Some(*s) }), // japanese
                 fields.get(3).and_then(|s| s.parse::<i64>().ok()), // chapter (i64) - None if parse fails
                 fields.get(4).map(|s| if s.is_empty() { None } else { Some(*s) }), // word_category
                 fields.get(5).and_then(|s| s.parse::<i64>().ok()).unwrap_or(0), // times_seen (i64) - default 0
@@ -134,9 +134,25 @@ fn add_vocabulary_entries_tsv(tsv_data: String, state: tauri::State<DbState>) ->
     Ok(status)
 }
 
+#[tauri::command]
+fn set_vocabulary_flag(id: i64, flag_value: i64, state: tauri::State<DbState>) -> Result<(), String> {
+    let conn_guard = state.0.lock().map_err(|e| e.to_string())?;
+
+    conn_guard.execute(
+        "UPDATE vocabulary SET flag = ?1 WHERE vocab_id = ?2",
+        params![flag_value, id],
+    )
+    .map_err(|e| format!("Failed to update flag for id {}: {}", id, e))?;
+    // .map(|_| ()) // Alternative way to return Result<(), Error> if needed by types
+
+    println!("Flag set to {} for vocab_id {}", flag_value, id); // Optional log
+    Ok(())
+}
+
 // --- In main function ---
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::default().build())
         .setup(|app| {
              // Ensure get_db_path is defined and DbState setup is correct
              let db_path = get_db_path(&app.handle());
@@ -148,7 +164,8 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             // Update command name here
             get_vocabulary,
-            add_vocabulary_entries_tsv
+            add_vocabulary_entries_tsv,
+            set_vocabulary_flag
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
